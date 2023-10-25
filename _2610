@@ -1,0 +1,103 @@
+
+public class Main {
+    public static void main(String[] args) {
+
+        //устанавливаем вакансии
+        Vacancy[] vacancies1 = new Vacancy[3];
+        vacancies1[0] = new Vacancy("Janitor", 1, 20000);
+        vacancies1[1] = new Vacancy("Analyst", 3, 70000);
+        vacancies1[2] = new Vacancy("Office Clerk", 0, 40000);
+
+        Vacancy[] vacancies2 = new Vacancy[3];
+        vacancies2[0] = new Vacancy("Janitor", 4, 25000);
+        vacancies2[1] = new Vacancy("Analyst", 3, 78000);
+        vacancies2[2] = new Vacancy("Office Clerk", 1, 42000);
+
+        //Создаем организации
+        Organization[] ownedOrganizations = new Organization[2];
+        ownedOrganizations[0] = new Organization("Ocosoft", vacancies1);
+        ownedOrganizations[1] = new Organization("Peace.com", vacancies2);
+
+        //Создаем двух работников и бизнесмэна
+        Employee employee1 = new Employee("John Doe", 2, 40000);
+        Employee employee2 = new Employee("Jane Po-Sleigh", 5, 60000);
+
+        Businessman businessman1 = new Businessman("Mr. Mister", ownedOrganizations);
+
+        businessman1.interview(employee1, ownedOrganizations);
+        System.out.println();
+        businessman1.interview(employee2, ownedOrganizations);
+    }
+}
+
+abstract class Person{
+    String fullName;
+
+    public Person(){
+
+    }
+}
+
+class Employee extends Person{
+    int yearsOfExperience;
+    int desiredSalary;
+    boolean isEmployed;
+
+    public Employee(String fullName, int yearsOfExperience, int desiredSalary){
+        this.fullName = fullName;
+        this.yearsOfExperience = yearsOfExperience;
+        this.desiredSalary = desiredSalary;
+    }
+}
+
+class Businessman extends Person {
+    Organization[] ownedOrganizations;
+
+    public Businessman(String fullName, Organization[] ownedOrganizations) {
+        this.fullName = fullName;
+        this.ownedOrganizations = ownedOrganizations;
+    }
+
+    public void interview(Employee employee, Organization[] organizations) {
+        System.out.println(fullName + " is now interviewing " + employee.fullName);
+            for (int i = 0; i < organizations.length; i++) {
+                for (int j = 0; j < organizations[i].vacancies.length; j++) {
+                    if ((organizations[i].vacancies[j].offeredSalary >= employee.desiredSalary) &&
+                    (organizations[i].vacancies[j].requiredExp <= employee.yearsOfExperience)) {
+                        System.out.println(employee.fullName + " got a job as " +
+                                organizations[i].vacancies[j].jobName + " at " + organizations[i].orgName);
+                        employee.isEmployed = true;
+
+                }
+            if (employee.isEmployed){
+                break;
+            }
+                }
+                if (employee.isEmployed){
+                    break;
+                }}
+
+    }
+}
+
+class Organization{
+    String orgName;
+    Vacancy[] vacancies;
+
+    public Organization(String orgName, Vacancy[] vacancies){
+        this.orgName = orgName;
+        this.vacancies = vacancies;
+    }
+}
+
+class Vacancy{
+    String jobName;
+    int requiredExp;
+    int offeredSalary;
+
+    public Vacancy(String jobName, int requiredExp, int offeredSalary){
+        this.jobName = jobName;
+        this.requiredExp = requiredExp;
+        this.offeredSalary = offeredSalary;
+    }
+}
